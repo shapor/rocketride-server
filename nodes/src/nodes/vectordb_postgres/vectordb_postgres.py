@@ -48,9 +48,9 @@ DEFAULT_POSTGRES_PORT = 5432
 MIN_SIMILARITY_SCORE = 0.20
 
 # SQL Queries
+# fmt: off
 SQL_QUERIES = {
     'check_collection_exists': "SELECT EXISTS (SELECT FROM pg_tables WHERE schemaname = 'public' AND tablename = %s)",
-    # fmt: off
     'create_collection': (
         'CREATE TABLE IF NOT EXISTS {collection} ('
         'id bigserial PRIMARY KEY, '
@@ -68,7 +68,6 @@ SQL_QUERIES = {
         'embedding vector({vector_size})'
         ');'
     ),
-    # fmt: on
     'count_documents': 'SELECT COUNT(*) FROM {collection}',
     'search_keyword': 'SELECT * FROM {collection} WHERE content LIKE %s {where_clause} LIMIT %s',
     'get_documents': 'SELECT * FROM {collection} {where_clause} LIMIT %s',
@@ -80,6 +79,7 @@ SQL_QUERIES = {
     'render_document': 'SELECT content, chunkId FROM {collection} WHERE objectId = %s AND chunkId >= %s AND chunkId < %s ORDER BY chunkId',
     'semantic_search': 'SELECT *, embedding {similarity_operator} %s AS distance FROM {collection} {where_clause} ORDER BY distance LIMIT %s',
 }
+# fmt: on
 
 
 class Store(DocumentStoreBase):
